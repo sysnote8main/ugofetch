@@ -1,0 +1,2 @@
+# ugofetch
+neofetch for Ugomono
