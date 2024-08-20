@@ -55,7 +55,7 @@ func Ugofetch(pipeInputStr string) {
 			w = termW
 		}
 	}
-	fmt.Printf("Width: %d\n", w)
+	// fmt.Printf("Width: %d\n", w)
 	fmt.Printf("%v\n", util.Generate_AA(selectedUser.AvatarURL))
 
 	if pipeInputStr != "" {
