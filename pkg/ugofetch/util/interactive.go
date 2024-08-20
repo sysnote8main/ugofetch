@@ -3,20 +3,16 @@ package util
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/koki-develop/go-fzf"
+	"golang.org/x/term"
+
 	"github.com/sysnote8main/ugofetch/pkg/ugofetch/model"
 )
 
 func Question(msg string) string {
-	tty, err := os.Open("/dev/tty")
-	if err != nil {
-		log.Fatal(err)
-	}
-	scanner := bufio.NewScanner(tty)
-	defer tty.Close()
+	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Print(msg)
 	scanner.Scan()
 	result := scanner.Text()
@@ -39,4 +35,28 @@ func ExtractUsernameList(userList []model.UserData) []string {
 		choices = append(choices, v.Username)
 	}
 	return choices
+}
+
+func runedTerminalOutput(text string, terminalFd int, spacerLen int) error {
+	w, _, err := term.GetSize(terminalFd)
+	if err != nil {
+		return err
+	}
+	r := runeStr(text, w-spacerLen)
+	for _, v := range r {
+		fmt.Println(v)
+	}
+	return nil
+}
+
+func runeStr(text string, splitLen int) []string {
+	result := make([]string, 0)
+	for i := 0; i < len(text); i += splitLen {
+		if i+splitLen < len(text) {
+			result = append(result, text[i:(i+splitLen)])
+		} else {
+			result = append(result, text[i:])
+		}
+	}
+	return result
 }
