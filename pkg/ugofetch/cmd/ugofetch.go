@@ -9,6 +9,7 @@ import (
 	"github.com/sysnote8main/makemyaa/pkg/ugofetch/misskey"
 	"github.com/sysnote8main/makemyaa/pkg/ugofetch/model/param"
 	"github.com/sysnote8main/makemyaa/pkg/ugofetch/util"
+	"golang.org/x/term"
 )
 
 const LineBreak = "\n"
@@ -46,10 +47,19 @@ func Ugofetch(pipeInputStr string) {
 	// log.Printf("You selected: %s\n", selectedUser.Username)
 	// log.Printf("AvatarUrl: %s", selectedUser.AvatarURL)
 
+	w := 51
+	f, err := os.Open("/dev/tty")
+	if err == nil {
+		termW, _, err := term.GetSize(int(f.Fd()))
+		if err == nil {
+			w = termW
+		}
+	}
+	fmt.Printf("Width: %d\n", w)
 	fmt.Printf("%v\n", util.Generate_AA(selectedUser.AvatarURL))
 
 	if pipeInputStr != "" {
-		PrintFetch(strings.Split(pipeInputStr, LineBreak))
+		PrintFetch(strings.Split(pipeInputStr, LineBreak), w)
 	} else {
 		// Ugomono fetch main logic
 		name, splitter := titleStr(selectedUser.Username, instance.Host)
@@ -62,7 +72,7 @@ func Ugofetch(pipeInputStr string) {
 			kvstr("Following", fmt.Sprint(selectedUser.FollowingCount)),
 			kvstr("CreatedAt", selectedUser.CreatedAt.String()),
 			kvstr("UpdatedAt", selectedUser.UpdatedAt.String()),
-		})
+		}, w)
 	}
 }
 
@@ -82,13 +92,38 @@ func kvstr(name string, value string) string {
 	return fmt.Sprintf("\033[33m%s\033[39m: %s", name, value)
 }
 
-func PrintFetch(arr []string) {
+func PrintFetch(arr []string, w int) {
 	os.Stdout.Write([]byte("\033[25A"))
-	for _, v := range arr {
-		os.Stdout.Write([]byte("\033[51C"))
-		os.Stdout.WriteString(v + LineBreak)
+	for _, g := range arr {
+		for _, v := range runeStr(g, w-51) {
+			os.Stdout.WriteString("\033[51C" + v + LineBreak)
+		}
 	}
 	for i := 0; i < (25 - len(arr)); i++ {
 		os.Stdout.Write([]byte("\n"))
 	}
+}
+
+func makeSpacer(length int) string {
+	result := ""
+	for i := 0; i < length; i++ {
+		result += " "
+	}
+	return result
+}
+
+func runeStr(text string, splitLen int) []string {
+	if len(text) <= splitLen {
+		return []string{text}
+	}
+	result := make([]string, 0)
+	runes := []rune(text)
+	for i := 0; i < len(runes); i += splitLen {
+		if i+splitLen < len(runes) {
+			result = append(result, string(runes[i:(i+splitLen)]))
+		} else {
+			result = append(result, string(runes[i:]))
+		}
+	}
+	return result
 }
