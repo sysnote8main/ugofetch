@@ -5,10 +5,10 @@ import (
 	"io"
 	"os"
 
-	// "github.com/sysnote8main/makemyaa/pkg/ugofetch/cmd"
+	// "github.com/sysnote8main/ugofetch/pkg/ugofetch/cmd"
 	// "github.com/sysnote8main/makemyaa/pkg/bigaa"
-	// "github.com/sysnote8main/makemyaa/pkg/ugofetch/util"
-	"github.com/sysnote8main/makemyaa/pkg/ugofetch/cmd"
+	// "github.com/sysnote8main/ugofetch/pkg/ugofetch/util"
+	"github.com/sysnote8main/ugofetch/pkg/ugofetch/cmd"
 	"golang.org/x/term"
 )
 

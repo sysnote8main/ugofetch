@@ -6,10 +6,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/sysnote8main/makemyaa/pkg/ugofetch/misskey"
-	"github.com/sysnote8main/makemyaa/pkg/ugofetch/model/param"
-	"github.com/sysnote8main/makemyaa/pkg/ugofetch/util"
 	"golang.org/x/term"
+
+	"github.com/sysnote8main/ugofetch/pkg/ugofetch/misskey"
+	"github.com/sysnote8main/ugofetch/pkg/ugofetch/model/param"
+	"github.com/sysnote8main/ugofetch/pkg/ugofetch/util"
 )
 
 const LineBreak = "\n"

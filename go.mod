@@ -1,4 +1,4 @@
-module github.com/sysnote8main/makemyaa
+module github.com/sysnote8main/ugofetch
 
 go 1.23.0
 

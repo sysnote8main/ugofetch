@@ -7,8 +7,8 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/sysnote8main/makemyaa/pkg/ugofetch/model"
-	"github.com/sysnote8main/makemyaa/pkg/ugofetch/model/param"
+	"github.com/sysnote8main/ugofetch/pkg/ugofetch/model"
+	"github.com/sysnote8main/ugofetch/pkg/ugofetch/model/param"
 )
 
 type Instance struct {
