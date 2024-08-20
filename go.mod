@@ -1,6 +1,6 @@
 module github.com/sysnote8main/ugofetch
 
-go 1.23.0
+go 1.23
 
 require (
 	github.com/TheZoraiz/ascii-image-converter v1.13.1
