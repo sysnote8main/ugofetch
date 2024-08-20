@@ -95,10 +95,8 @@ func kvstr(name string, value string) string {
 
 func PrintFetch(arr []string, w int) {
 	os.Stdout.Write([]byte("\033[25A"))
-	for _, g := range arr {
-		for _, v := range runeStr(g, w-51) {
-			os.Stdout.WriteString("\033[51C" + v + LineBreak)
-		}
+	for _, v := range arr {
+		os.Stdout.WriteString("\033[51C" + v + LineBreak)
 	}
 	for i := 0; i < (25 - len(arr)); i++ {
 		os.Stdout.Write([]byte("\n"))
