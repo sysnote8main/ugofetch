@@ -15,6 +15,22 @@ type Instance struct {
 	Host string
 }
 
+func (t Instance) SearchUserRecursive(param param.MisskeyUserSearchParam) ([]model.UserData, error) {
+	result := make([]model.UserData, 0)
+	for {
+		d, err := t.SearchUser(param)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, d...)
+		if len(d) < param.Limit {
+			break
+		}
+		param.Offset += param.Limit
+	}
+	return result, nil
+}
+
 func (t Instance) SearchUser(param param.MisskeyUserSearchParam) ([]model.UserData, error) {
 	paramJson, err := json.Marshal(param)
 	if err != nil {

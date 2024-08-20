@@ -32,7 +32,7 @@ func Ugofetch(pipeInputStr string) {
 		Detail: true,
 	}
 
-	userArr, err := instance.SearchUser(searchParam)
+	userArr, err := instance.SearchUserRecursive(searchParam)
 	if err != nil {
 		log.Fatal("Failed to search user: ", err)
 	}
