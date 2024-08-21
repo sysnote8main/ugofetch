@@ -1,4 +1,4 @@
-package misskey
+package endpoints
 
 import (
 	"bytes"
@@ -7,18 +7,19 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/sysnote8main/ugofetch/pkg/ugofetch/model"
-	"github.com/sysnote8main/ugofetch/pkg/ugofetch/model/param"
+	"github.com/sysnote8main/ugofetch/pkg/misskey/model"
+	"github.com/sysnote8main/ugofetch/pkg/misskey/param"
 )
 
-type Instance struct {
+type User struct {
 	Host string
 }
 
-func (t Instance) SearchUserRecursive(param param.MisskeyUserSearchParam) ([]model.UserData, error) {
+// TODO fix duplicate user
+func (u User) SearchUserRecursive(param param.MisskeyUserSearchParam) ([]model.UserData, error) {
 	result := make([]model.UserData, 0)
 	for {
-		d, err := t.SearchUser(param)
+		d, err := u.SearchUser(param)
 		if err != nil {
 			return nil, err
 		}
@@ -31,13 +32,13 @@ func (t Instance) SearchUserRecursive(param param.MisskeyUserSearchParam) ([]mod
 	return result, nil
 }
 
-func (t Instance) SearchUser(param param.MisskeyUserSearchParam) ([]model.UserData, error) {
+func (u User) SearchUser(param param.MisskeyUserSearchParam) ([]model.UserData, error) {
 	paramJson, err := json.Marshal(param)
 	if err != nil {
 		return nil, err
 	}
 
-	url := fmt.Sprintf("https://%s/api/users/search", t.Host)
+	url := fmt.Sprintf("https://%s/api/users/search", u.Host)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(paramJson))
 	if err != nil {
 		return nil, err

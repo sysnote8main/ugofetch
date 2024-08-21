@@ -1,4 +1,4 @@
-package util
+package synutil
 
 import (
 	"bufio"
@@ -7,8 +7,6 @@ import (
 
 	"github.com/koki-develop/go-fzf"
 	"golang.org/x/term"
-
-	"github.com/sysnote8main/ugofetch/pkg/ugofetch/model"
 )
 
 func Question(msg string) string {
@@ -27,14 +25,6 @@ func Select(choices []string) ([]int, error) {
 
 	indexList, err := f.Find(choices, func(i int) string { return choices[i] })
 	return indexList, err
-}
-
-func ExtractUsernameList(userList []model.UserData) []string {
-	choices := make([]string, 0)
-	for _, v := range userList {
-		choices = append(choices, v.Username)
-	}
-	return choices
 }
 
 func runedTerminalOutput(text string, terminalFd int, spacerLen int) error {

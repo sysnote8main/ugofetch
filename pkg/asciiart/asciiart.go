@@ -1,7 +1,6 @@
-package bigaa
+package asciiart
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/TheZoraiz/ascii-image-converter/aic_package"
@@ -10,7 +9,7 @@ import (
 func Generate_AA(filePath string) string {
 	flags := aic_package.DefaultFlags()
 
-	flags.Dimensions = []int{100, 50}
+	flags.Dimensions = []int{50, 25}
 	flags.Colored = true
 
 	asciiArt, err := aic_package.Convert(filePath, flags)
@@ -18,8 +17,4 @@ func Generate_AA(filePath string) string {
 		log.Fatal("Failed to convert to ascii art: ", err)
 	}
 	return asciiArt
-}
-
-func BigAA(filePath string) {
-	fmt.Printf("%v\n", Generate_AA(filePath))
 }
