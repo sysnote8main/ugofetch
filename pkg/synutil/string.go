@@ -1,5 +1,7 @@
 package synutil
 
+import "strings"
+
 func RuneStr(text string, splitLen int) []string {
 	if len(text) <= splitLen {
 		return []string{text}
@@ -16,10 +18,14 @@ func RuneStr(text string, splitLen int) []string {
 	return result
 }
 
-func makeSpacer(length int) string {
+func MakeSpacer(length int) string {
 	result := ""
 	for i := 0; i < length; i++ {
 		result += " "
 	}
 	return result
+}
+
+func SplitByLineBreak(text string) []string {
+	return strings.Split(text, LineBreak)
 }

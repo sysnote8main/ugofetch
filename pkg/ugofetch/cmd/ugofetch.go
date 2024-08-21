@@ -42,25 +42,17 @@ func Ugofetch(pipeInputStr string) {
 	}
 	selectedUser := userArr[indexList[0]]
 
-	// log.Printf("You selected: %s\n", selectedUser.Username)
-	// log.Printf("AvatarUrl: %s", selectedUser.AvatarURL)
+	// AA Array
+	aaStr := synutil.SplitByLineBreak(asciiart.Generate_AA(selectedUser.AvatarURL))
 
-	w := 51
-	// TODO check on windows
-	// termW, _, err := term.GetSize(int(os.Stdout.Fd()))
-	// if err == nil {
-	// 	w = termW
-	// }
-
-	// fmt.Printf("Width: %d\n", w)
-	fmt.Printf("%v\n", asciiart.Generate_AA(selectedUser.AvatarURL))
-
+	// Information Array
+	var infoList []string
 	if pipeInputStr != "" {
-		synutil.PrintFetch(strings.Split(pipeInputStr, synutil.LineBreak), w)
+		infoList = strings.Split(pipeInputStr, synutil.LineBreak)
 	} else {
 		// Ugomono fetch main logic
 		name, splitter := synutil.TitleStr(selectedUser.Username, instance.Host)
-		synutil.PrintFetch([]string{
+		infoList = []string{
 			name,
 			splitter,
 			synutil.KvStr("Description", strings.Split(selectedUser.Description, "\n")[0]),
@@ -69,11 +61,21 @@ func Ugofetch(pipeInputStr string) {
 			synutil.KvStr("Following", fmt.Sprint(selectedUser.FollowingCount)),
 			synutil.KvStr("CreatedAt", selectedUser.CreatedAt.String()),
 			synutil.KvStr("UpdatedAt", selectedUser.UpdatedAt.String()),
-		}, w)
+		}
 	}
-}
 
-func outputList(title string, content map[string]string) []string {
-	// TODO implement this
-	return []string{}
+	// Generate Output
+	spacer := synutil.MakeSpacer(50)
+	outputArr := synutil.ListJoin(
+		aaStr,
+		infoList,
+		spacer,
+		"",
+		" ",
+	)
+
+	// Printout
+	for _, v := range outputArr {
+		fmt.Println(v)
+	}
 }

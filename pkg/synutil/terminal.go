@@ -3,6 +3,8 @@ package synutil
 import (
 	"fmt"
 	"os"
+
+	"golang.org/x/term"
 )
 
 func TitleStr(username string, host string) (string, string) {
@@ -29,4 +31,14 @@ func PrintFetch(arr []string, w int) {
 	for i := 0; i < (25 - len(arr)); i++ {
 		os.Stdout.Write([]byte("\n"))
 	}
+}
+
+func GetTermWidth(defaultValue int) (int, error) {
+	w := defaultValue
+	// TODO check on windows
+	termW, _, err := term.GetSize(int(os.Stdout.Fd()))
+	if err == nil {
+		w = termW
+	}
+	return w, err
 }
