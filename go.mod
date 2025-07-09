@@ -2,7 +2,7 @@ module github.com/sysnote8main/ugofetch
 
 go 1.23.0
 
-toolchain go1.24.1
+toolchain go1.24.5
 
 require (
 	github.com/TheZoraiz/ascii-image-converter v1.13.1
